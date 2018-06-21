@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0EAC92F-7BFD-41E0-99B3-106C33439D5F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChannelAdam.TestFramework.MSTestV2", "src\ChannelAdam.TestFramework.MSTestV2\ChannelAdam.TestFramework.MSTestV2.csproj", "{10171123-AEBC-4671-9EC3-259CDD744468}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48343988-5622-4F1C-9588-BAC1296DAAAE}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		GitVersion.yml = GitVersion.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10171123-AEBC-4671-9EC3-259CDD744468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10171123-AEBC-4671-9EC3-259CDD744468}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10171123-AEBC-4671-9EC3-259CDD744468}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10171123-AEBC-4671-9EC3-259CDD744468}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{10171123-AEBC-4671-9EC3-259CDD744468} = {E0EAC92F-7BFD-41E0-99B3-106C33439D5F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D6C99780-77A9-42BE-AFFB-E1677384DC91}
+	EndGlobalSection
+EndGlobal
