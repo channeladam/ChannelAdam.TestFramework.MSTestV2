@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="LogAssert.cs">
-//     Copyright (c) 2014-2018 Adam Craven. All rights reserved.
+//     Copyright (c) 2014-2020 Adam Craven. All rights reserved.
 // </copyright>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,7 +48,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         }
 
         /// <summary>
-        /// Asserts that the value is <code>true</code>.
+        /// Asserts that the value is <c>true</c>.
         /// </summary>
         /// <param name="itemName">Name of the item.</param>
         /// <param name="actual">The actual value to test.</param>
@@ -59,7 +59,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         }
 
         /// <summary>
-        /// Asserts that the value is <code>false</code>.
+        /// Asserts that the value is <c>false</c>.
         /// </summary>
         /// <param name="itemName">Name of the item.</param>
         /// <param name="actual">The actual value to test.</param>
@@ -73,7 +73,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         }
 
         /// <summary>
-        /// Asserts that the value is <code>null</code>.
+        /// Asserts that the value is <c>null</c>.
         /// </summary>
         /// <typeparam name="T">The type of the object being asserted.</typeparam>
         /// <param name="itemName">Name of the item.</param>
@@ -81,14 +81,14 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void IsNull<T>(string itemName, T actual)
+        public void IsNull<T>(string itemName, T? actual)
         {
             this.logger.Log("Asserting {0} is Null", itemName);
             MSTest.Assert.IsNull(actual, itemName + " is Null");
         }
 
         /// <summary>
-        /// Asserts that the value is NOT <code>null</code>.
+        /// Asserts that the value is NOT <c>null</c>.
         /// </summary>
         /// <typeparam name="T">The type of the object being asserted.</typeparam>
         /// <param name="itemName">Name of the item.</param>
@@ -96,7 +96,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void IsNotNull<T>(string itemName, T actual)
+        public void IsNotNull<T>(string itemName, T? actual)
         {
             this.logger.Log("Asserting {0} is NOT Null", itemName);
             MSTest.Assert.IsNotNull(actual, itemName + " is NOT Null");
@@ -112,10 +112,11 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreEqual<T>(string itemName, T expected, T actual)
+        public void AreEqual<T>(string itemName, T? expected, T? actual)
         {
             this.logger.Log("Asserting {0} is equal to: {1}", itemName, expected);
-            MSTest.Assert.AreEqual<T>(expected, actual, itemName);
+
+            MSTest.Assert.AreEqual<T>(expected!, actual!, itemName);
         }
 
         /// <summary>
@@ -129,11 +130,11 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreEqual<T>(string itemName, T expected, T actual, bool ignoreCase)
+        public void AreEqual<T>(string itemName, T? expected, T? actual, bool ignoreCase)
         {
             string ignore = ignoreCase ? " (ignoring case)" : string.Empty;
             this.logger.Log("Asserting {0} is equal to {1}: {2}", itemName, ignore, expected);
-            MSTest.Assert.AreEqual<T>(expected, actual, itemName, ignoreCase);
+            MSTest.Assert.AreEqual<T>(expected!, actual!, itemName, ignoreCase);
         }
 
         /// <summary>
@@ -146,10 +147,10 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreNotEqual<T>(string itemName, T expected, T actual)
+        public void AreNotEqual<T>(string itemName, T? expected, T? actual)
         {
             this.logger.Log("Asserting {0} is NOT equal to: {1}", itemName, expected);
-            MSTest.Assert.AreNotEqual<T>(expected, actual, itemName);
+            MSTest.Assert.AreNotEqual<T>(expected!, actual!, itemName);
         }
 
         /// <summary>
@@ -163,11 +164,11 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreNotEqual<T>(string itemName, T expected, T actual, bool ignoreCase)
+        public void AreNotEqual<T>(string itemName, T? expected, T? actual, bool ignoreCase)
         {
             string ignore = ignoreCase ? " (ignoring case)" : string.Empty;
             this.logger.Log("Asserting {0} is NOT equal to {1}: {2}", itemName, ignore, expected);
-            MSTest.Assert.AreNotEqual<T>(expected, actual, itemName, ignoreCase);
+            MSTest.Assert.AreNotEqual<T>(expected!, actual!, itemName, ignoreCase);
         }
 
         /// <summary>
@@ -179,13 +180,17 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void StringContains(string itemName, string expectedText, string actualText)
+        public void StringContains(string itemName, string? expectedText, string? actualText)
         {
             this.logger.Log("Asserting {0} - that the text '{1}' contains the text '{2}'", itemName, actualText, expectedText);
 
-            if (actualText == null)
+            if (actualText is null)
             {
                 MSTest.Assert.Fail("Actual text is null and does NOT contain the expected text '{0}'", expectedText);
+            }
+            else if (expectedText is null)
+            {
+                MSTest.Assert.Fail("Expected text is null and cannot be contained in the actual text");
             }
             else
             {
@@ -203,7 +208,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreSame<T>(string itemName, T expected, T actual)
+        public void AreSame<T>(string itemName, T? expected, T? actual)
         {
             this.logger.Log("Asserting {0} is same as: {1}", itemName, expected);
             MSTest.Assert.AreSame(expected, actual, itemName);
@@ -219,7 +224,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void AreNotSame<T>(string itemName, T expected, T actual)
+        public void AreNotSame<T>(string itemName, T? expected, T? actual)
         {
             this.logger.Log("Asserting {0} is NOT same as: {1}", itemName, expected);
             MSTest.Assert.AreNotSame(expected, actual, itemName);
@@ -234,7 +239,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void IsInstanceOfType(string itemName, Type expectedType, object actual)
+        public void IsInstanceOfType(string itemName, Type expectedType, object? actual)
         {
             if (expectedType == null)
             {
@@ -254,7 +259,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// <remarks>
         /// Outputs the name of the object being asserted for better traceability in the test output.
         /// </remarks>
-        public void IsNotInstanceOfType(string itemName, Type expectedType, object actual)
+        public void IsNotInstanceOfType(string itemName, Type expectedType, object? actual)
         {
             if (expectedType == null)
             {
@@ -270,7 +275,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="args">The arguments.</param>
-        public void Inconclusive(string message, params object[] args)
+        public void Inconclusive(string message, params object?[] args)
         {
             this.logger.Log("Inconclusive: " + message, args);
             MSTest.Assert.Inconclusive(message, args);
@@ -281,7 +286,7 @@ namespace ChannelAdam.TestFramework.MSTestV2
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="args">The arguments.</param>
-        public void Fail(string message, params object[] args)
+        public void Fail(string message, params object?[] args)
         {
             this.logger.Log("Failing: " + message, args);
             MSTest.Assert.Fail(message, args);
